@@ -26,10 +26,8 @@ const ProductDetailCom = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      {/* タイトルを画面上部に固定 */}
       <Text style={styles.title}>Product Detail</Text>
 
-      {/* 画像 */}
       <Image source={{ uri: image }} style={styles.image} />
       <Text style={styles.text}>Name: {title}</Text>
       <Text style={styles.text}>Price: ${price}</Text>

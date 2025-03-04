@@ -4,8 +4,9 @@ import {Ionicons} from"@expo/vector-icons"
 export const ImgButton = ({
 name,
 label,
+size,
 fun =()=>{
-    console.log("clicked")
+    console.log("clicked, but the function hasn`t assigned")
 },
 })=>{
     return(
@@ -14,7 +15,7 @@ fun =()=>{
         onPress={fun}
         >
             <View style={styles.container}>
-                <Ionicons name={name} color={"black"} size={20}/>
+                <Ionicons name={name} color={"black"} />
                 <Text style={styles.text}>{label}</Text>
             </View>
         </Pressable>
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     text :{
-        color: "black"
+        color: "black",
+        paddingRight : 10,
     },
 })
