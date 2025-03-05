@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet,TextInput, Pressable } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios';
 
 export default function Login({onLoginSuccess}) {
   //userName, passWord stateでユーザー空の入力を管理。
@@ -8,7 +9,32 @@ export default function Login({onLoginSuccess}) {
   const [passWord, setpassWord ] = useState("");
 
   const handleLogin =() => {
-    console.log("clicked")
+    axios({
+      url : "https://fakestoreapi.com/auth/login",
+      method : "POST",
+      data : {
+        username : userName,
+        password : passWord,
+      },
+    }).then((res)=>{
+      const newToken = res.data.token
+      onLoginSuccess(newToken)
+      console.log(res.data.token)
+      console.log(userName, passWord)
+    }).catch((error)=>{
+      if (error.response) {
+        // サーバーからのエラーレスポンス
+        console.log("Error Status:", error.response.status);
+        console.log("Error Data:", error.response.data);
+      } else if (error.request) {
+        // リクエストが送信されたが、レスポンスがない場合
+        console.log("No response received:", error.request);
+      } else {
+        // その他のエラー
+        console.log("Axios Error:", error.message);
+      }
+    })
+    // console.log("clicked")
   }
 
   return(
@@ -16,6 +42,7 @@ export default function Login({onLoginSuccess}) {
       <TextInput
         style={styles.textInput}
         placeholder='Username'
+
         value={userName}
         onChangeText={setuserName}  
         autoCapitalize="none"
@@ -31,7 +58,7 @@ export default function Login({onLoginSuccess}) {
       <Pressable 
       style={({ pressed }) => [
         styles.loginBtn, 
-        { backgroundColor: pressed ? 'lightgray' : 'Orange' }
+        { backgroundColor: pressed ? 'lightgray' : 'white' }
       ]}
       onPress={handleLogin}
     >
@@ -46,8 +73,10 @@ const styles = StyleSheet.create({
         flex : 1,
         justifyContent :"center",
         alignItems : "center",
+        backgroundColor : "#ffae00" 
     },
     textInput :{
+      backgroundColor : "white",
       borderWidth : 2,
       height : 30,
       width : 250,
